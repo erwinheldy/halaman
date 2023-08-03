@@ -1,0 +1,43 @@
+{
+  "name": "halaman",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "JSX to html generator",
+  "license": "MIT",
+  "repository": "git@github.com:erwinheldy/halaman.git",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": "./dist/cli.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "shx rm -rf dist && rusco build:*",
+    "build:js": "esbuild index.ts --outdir=dist --format=esm --platform=node --packages=external --bundle",
+    "build:cli": "esbuild cli.ts --outdir=dist --format=esm --platform=node --packages=external",
+    "build:dts": "tsc index.ts --esModuleInterop --declaration --emitDeclarationOnly --resolveJsonModule --outDir dist --module esnext --moduleResolution node"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "dependencies": {
+    "chokidar": "3.5.3",
+    "commander": "11.0.0",
+    "esbuild": "0.18.17",
+    "get-port": "7.0.0",
+    "pathe": "1.1.1",
+    "prettier": "3.0.1",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "0.40.0",
+    "@types/node": "20.4.6",
+    "@types/react": "18.2.18",
+    "@types/react-dom": "18.2.7",
+    "eslint": "8.46.0",
+    "eslint-plugin-react": "7.33.1",
+    "rusco": "0.1.0",
+    "shx": "0.3.4",
+    "typescript": "5.1.6"
+  }
+}
