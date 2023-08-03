@@ -41,7 +41,7 @@ halaman serve dst --port 3000
 ## API
 
 ```typescript
-import { build, dev } from 'halaman'
+import { build, dev, serve } from 'halaman'
 
 const src = 'src/pages'
 const dst = 'dist'
@@ -54,8 +54,12 @@ await build(src, dst, {
 })
 
 // dev
-server = await dev(src, {
+const server = await dev(src, {
   watch: 'src/**/*',
 })
+console.log(server)
+
+// serve
+const server = await serve(dst)
 console.log(server)
 ```

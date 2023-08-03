@@ -1,7 +1,5 @@
 import { Command } from 'commander'
-import { context } from 'esbuild'
-import getPort from 'get-port'
-import { build, config, dev } from './index.js'
+import { build, config, dev, serve } from './index.js'
 
 const program = new Command()
 
@@ -43,8 +41,7 @@ program.command('serve')
   .option('-p, --port <number>', 'port number.', config.defaultPort as any)
   .action(async (servedir, options) => {
     const port = Number(options.port)
-    const ctx = await context({ logLevel: 'silent' })
-    const server = await ctx.serve({ servedir, port: await getPort({ port }) })
+    const server = await serve(servedir, { port })
     console.log(`Serve: http://localhost:${server.port}`)
   })
 
