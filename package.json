@@ -1,10 +1,23 @@
 {
   "name": "halaman",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JSX to html generator",
   "license": "MIT",
   "repository": "git@github.com:erwinheldy/halaman.git",
+  "bugs": {
+    "url": "https://github.com/erwinheldy/halaman/issues"
+  },
+  "keywords": [
+    "JSX to HTML converter",
+    "JSX to HTML transpiler",
+    "JSX to HTML generator",
+    "Live reload JSX to HTML",
+    "Watch JSX to HTML changes",
+    "React JSX to HTML converter",
+    "JSX beautifier and converter",
+    "JSX to HTML live rendering"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": "./dist/cli.js",
