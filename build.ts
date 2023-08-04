@@ -2,7 +2,7 @@ import esbuild from 'esbuild'
 import path from 'pathe'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { copyFile, deleteFile, exists, readDir, writeFile } from './util'
-import { defaultStatic } from './config'
+import { defaultStatic, external } from './config'
 
 export async function build(src: string, dst: string, options?: BuildOptions) {
   const staticDir = options?.static || defaultStatic
@@ -32,7 +32,7 @@ export async function build(src: string, dst: string, options?: BuildOptions) {
     format: 'esm',
     logLevel: 'silent',
     jsx: 'transform',
-    external: ['react'],
+    external,
     banner: {
       js: 'import React from \'react\';',
     },

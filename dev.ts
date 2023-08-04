@@ -5,7 +5,7 @@ import path from 'pathe'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { watch as chokidar } from 'chokidar'
 import { deleteFile, exists } from './util'
-import { defaultPort, defaultStatic } from './config'
+import { defaultPort, defaultStatic, external } from './config'
 
 const clients: (http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage })[] = []
 export async function dev(src: string, options?: DevOptions) {
@@ -31,7 +31,7 @@ export async function dev(src: string, options?: DevOptions) {
           format: 'esm',
           logLevel: 'silent',
           jsx: 'automatic',
-          external: ['react'],
+          external,
         })
         try {
           const module = await import(path.resolve(outfile))
