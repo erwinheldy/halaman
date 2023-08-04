@@ -1,5 +1,8 @@
+import process from 'node:process'
 import { Command } from 'commander'
 import { build, config, dev, serve } from './index.js'
+
+process.stdout.write(process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H')
 
 const program = new Command()
 
@@ -19,9 +22,11 @@ program.command('dev')
       watch: options.watch,
       static: options.static,
     })
-    console.log(`Serve: http://localhost:${server.port}`)
-    console.log('Watch:', server.watch)
-    console.log('Static:', server.static)
+    console.log({
+      serve: `http://localhost:${server.port}`,
+      watch: server.watch,
+      static: server.static,
+    })
   })
 
 program.command('build')
@@ -30,10 +35,12 @@ program.command('build')
   .option('-c, --clean', 'clean destination directory.')
   .option('-p, --pretty', 'prettify HTML result.')
   .action(async (src, dst, { clean, pretty }) => {
+    console.log({ status: 'Building...' })
     await build(trimTrailingSlashes(src), trimTrailingSlashes(dst), {
       clean,
       pretty,
     })
+    console.log({ status: 'Done.' })
   })
 
 program.command('serve')
@@ -42,7 +49,9 @@ program.command('serve')
   .action(async (servedir, options) => {
     const port = Number(options.port)
     const server = await serve(servedir, { port })
-    console.log(`Serve: http://localhost:${server.port}`)
+    console.log({
+      serve: `http://localhost:${server.port}`,
+    })
   })
 
 program.parse()

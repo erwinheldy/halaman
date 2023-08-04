@@ -1,7 +1,7 @@
 {
   "name": "halaman",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "JSX to html generator",
   "license": "MIT",
   "repository": "git@github.com:erwinheldy/halaman.git",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "0.40.0",
-    "@types/node": "20.4.6",
+    "@types/node": "20.4.7",
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "eslint": "8.46.0",
