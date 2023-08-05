@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import process from 'node:process'
 import { Command } from 'commander'
 import { build, config, dev, serve } from './index.js'
