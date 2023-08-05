@@ -4,11 +4,12 @@ import esbuild from 'esbuild'
 import path from 'pathe'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { watch as chokidar } from 'chokidar'
-import { deleteFile, exists } from './util'
-import { defaultPort, defaultStatic, external } from './config'
+import { builder, deleteFile, exists } from './util'
+import { defaultPort, defaultStatic } from './config'
 
 const clients: (http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage })[] = []
-export async function dev(src: string, options?: DevOptions) {
+
+export async function dev(src: string, options?: DevOptions): Promise<{ port: number; watch: string; static: string }> {
   const servedir = options?.static || defaultStatic
   const ctx = await esbuild.context({})
   const esbuildPort = await getPort({ port: defaultPort + 1 })
@@ -24,14 +25,9 @@ export async function dev(src: string, options?: DevOptions) {
       const filepath = `${path.join(src, filename).slice(0, -4)}tsx`
       if (await exists(filepath)) {
         const outfile = `${Math.random()}.mjs`
-        await esbuild.build({
+        await builder({
           entryPoints: [filepath],
           outfile,
-          bundle: true,
-          format: 'esm',
-          logLevel: 'silent',
-          jsx: 'automatic',
-          external,
         })
         try {
           const module = await import(path.resolve(outfile))
@@ -96,14 +92,14 @@ export async function dev(src: string, options?: DevOptions) {
   }
 }
 
-function injectScript(html: string, port: number) {
+function injectScript(html: string, port: number): string {
   const bodyEndPosition = html.lastIndexOf('</body>')
   const injectPosition = bodyEndPosition === -1 ? html.length : bodyEndPosition
   const script = `(() => new EventSource('http://localhost:${port}').onmessage = () => location.reload())()`
   return (`${html.substring(0, injectPosition)}<script>${script}</script>\n${html.substring(injectPosition)}`)
 }
 
-export function reload() {
+export function reload(): void {
   clients.forEach(res => res.write('data: update\n\n'))
   clients.length = 0
 }

@@ -56,6 +56,6 @@ program.command('serve')
 
 program.parse()
 
-function trimTrailingSlashes(str: string) {
+function trimTrailingSlashes(str: string): string {
   return str.replace(/\/+$/, '')
 }

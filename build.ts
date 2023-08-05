@@ -1,10 +1,9 @@
-import esbuild from 'esbuild'
 import path from 'pathe'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { copyFile, deleteFile, exists, readDir, writeFile } from './util'
-import { defaultStatic, external } from './config'
+import { builder, copyFile, deleteFile, exists, readDir, writeFile } from './util'
+import { defaultStatic, pkg } from './config'
 
-export async function build(src: string, dst: string, options?: BuildOptions) {
+export async function build(src: string, dst: string, options?: BuildOptions): Promise<void> {
   const staticDir = options?.static || defaultStatic
   if (options?.clean) {
     await deleteFile(dst)
@@ -17,7 +16,7 @@ export async function build(src: string, dst: string, options?: BuildOptions) {
   }
   const files = await readDir(src)
   const entryPoints = files.filter(i => i.endsWith('.tsx') || i.endsWith('.jsx'))
-  const outdir = '.tmp'
+  const outdir = `.${pkg.name}`
 
   async function renderHTML(outfile: string) {
     const module = await import(path.resolve(outfile))
@@ -25,17 +24,9 @@ export async function build(src: string, dst: string, options?: BuildOptions) {
     return writeFile(`${outfile.replace(outdir, dst).slice(0, -2)}html`, options?.pretty ? await prettify(content) : content)
   }
 
-  await esbuild.build({
+  await builder({
     entryPoints,
     outdir,
-    bundle: true,
-    format: 'esm',
-    logLevel: 'silent',
-    jsx: 'transform',
-    external,
-    banner: {
-      js: 'import React from \'react\';',
-    },
   })
 
   const outputFiles = (entryPoints.map(i => `${i.replace(src, outdir).slice(0, -3)}js`))
@@ -45,7 +36,7 @@ export async function build(src: string, dst: string, options?: BuildOptions) {
   deleteFile(outdir)
 }
 
-async function prettify(html: string) {
+async function prettify(html: string): Promise<string> {
   const { format } = await import('prettier')
   return format(html, {
     parser: 'html',
