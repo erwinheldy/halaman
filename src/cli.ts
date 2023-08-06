@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import process from 'node:process'
 import { Command } from 'commander'
 import { build, config, dev, serve } from './index.js'
@@ -17,11 +15,13 @@ program.command('dev')
   .argument('<src>', 'source directory.')
   .option('-p, --port <number>', 'port number.', config.defaultPort as any)
   .option('-w, --watch <string>', 'globs to watch on the file system. (default: "<src>/**/*")')
+  .option('-d, --delay <number>', 'delay (in milliseconds) before the watcher responds to a change event.', config.defaultDelay as any)
   .option('-s, --static <string>', 'static assets root directory.', config.defaultStatic)
   .action(async (src, options) => {
     const server = await dev(trimTrailingSlashes(src), {
       port: Number(options.port),
       watch: options.watch,
+      delay: options.delay,
       static: options.static,
     })
     console.log({

@@ -68,6 +68,14 @@ export async function builder(options: BuildOptions): Promise<void> {
     define: {
       'process.env.NODE_ENV': '"production"',
     },
+    outExtension: { '.js': '.mjs' },
     ...options,
   })
+}
+
+export function injectScript(html: string, port: number): string {
+  const bodyEndPosition = html.lastIndexOf('</body>')
+  const injectPosition = bodyEndPosition === -1 ? html.length : bodyEndPosition
+  const script = `(() => new EventSource('http://localhost:${port}').onmessage = () => location.reload())()`
+  return (`${html.substring(0, injectPosition)}<script>${script}</script>\n${html.substring(injectPosition)}`)
 }

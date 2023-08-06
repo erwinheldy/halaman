@@ -17,30 +17,26 @@ This generator relies on `react/jsx-runtime`, so make sure to install the `react
 ```bash
 npm install react @types/react
 ```
-## Usage/Examples
+## Usage
 
-```bash
-# help
-halaman --help
-halaman build --help
-halaman dev --help
-halaman serve --help
+```
+Usage: halaman [options] [command]
 
-# build
-halaman build src dst
-halaman build src dst --clean --pretty
+JSX to html generator
 
-# dev
-halaman dev src
-halaman dev src/pages --port 3000 --static public --watch "src/**/*"
+Options:
+  -V, --version                output the version number
+  -h, --help                   display help for command
 
-# serve
-halaman serve dst
-halaman serve dst --port 3000
+Commands:
+  dev [options] <src>
+  build [options] <src> <dst>
+  serve [options] <servedir>
+  help [command]               display help for command
 ```
 
 
-## API
+## Programmatic usage
 
 ```typescript
 import { build, dev, serve } from 'halaman'
