@@ -78,7 +78,7 @@ export async function dev(src: string, options?: DevOptions): Promise<{ port: nu
   const { host, port } = await ctx.serve({ port: esbuildPort, servedir })
   const proxyPort = await getPort({ port: options?.port || defaultPort })
   const eventSourcePort = await getPort({ port: defaultPort + 2 })
-  const delay = options?.delay || defaultDelay
+  const delay = typeof options !== 'undefined' && typeof options.delay !== 'undefined' ? options.delay : defaultDelay
 
   // Proxy server
   http.createServer(async (req, res) => {
