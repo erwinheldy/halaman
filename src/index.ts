@@ -162,7 +162,7 @@ export function reload(): void {
   clients.length = 0
 }
 
-export async function serve(servedir: string, options: ServeOptions) {
+export async function serve(servedir: string, options?: ServeOptions) {
   const ctx = await esbuild.context({ logLevel: 'silent' })
   return await ctx.serve({ servedir, port: await getPort({ port: options?.port || defaultPort }) })
 }
