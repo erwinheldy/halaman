@@ -1,7 +1,7 @@
 {
   "name": "halaman",
   "type": "module",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "JSX to html generator",
   "license": "MIT",
   "repository": "git@github.com:erwinheldy/halaman.git",
@@ -32,7 +32,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "shx rm -rf dist && pkgroll"
+    "build": "shx rm -rf dist && pkgroll",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "peerDependencies": {
     "@types/react": "^18.2.18",
@@ -42,7 +44,7 @@
     "@types/react-dom": "18.2.7",
     "chokidar": "3.5.3",
     "commander": "11.0.0",
-    "esbuild": "0.18.18",
+    "esbuild": "0.18.19",
     "get-port": "7.0.0",
     "pathe": "1.1.1",
     "prettier": "3.0.1",
