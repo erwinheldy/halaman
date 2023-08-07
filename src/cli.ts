@@ -36,11 +36,13 @@ program.command('build')
   .argument('<dst>', 'destination directory.')
   .option('-c, --clean', 'clean destination directory.')
   .option('-p, --pretty', 'prettify HTML result.')
-  .action(async (src, dst, { clean, pretty }) => {
+  .option('-s, --static <string>', 'static assets root directory.', config.defaultStatic)
+  .action(async (src, dst, options) => {
     console.log({ status: 'Building...' })
     await build(trimTrailingSlashes(src), trimTrailingSlashes(dst), {
-      clean,
-      pretty,
+      clean: options.clean,
+      pretty: options.pretty,
+      static: options.static,
     })
     console.log({ status: 'Done.' })
   })
